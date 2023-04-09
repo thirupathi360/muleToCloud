@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="01543fce-3f0f-4d37-a69f-1d326ba58e0f" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<flow name="muletocloudFlow" doc:id="17609496-9775-4492-82db-d28a9b70d81b" >
+		<http:listener doc:name="Listener" doc:id="e68f008e-ebb6-48ea-b6ae-b63371f519c1" config-ref="HTTP_Listener_config" path="/mule"/>
+		<logger level="INFO" doc:name="START LOG" doc:id="3cde9551-fd79-47e0-9ae5-676cb118dd1f" message="flow started"/>
+		<ee:transform doc:name="Transform Message" doc:id="34a95a56-95be-444b-b045-872d2393a8ca" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"muleToCloud": "Hi there mule application is deployed"
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="END LOG" doc:id="bf84eb81-abe8-4835-a8d2-b0f71ce7a748" message="flow ended"/>
+	</flow>
+</mule>
